@@ -6,8 +6,8 @@ from bs4 import BeautifulSoup
 class Mailhelper():
     def __init__(self):
         self.mail_host = "smtp.qq.com"
-        self.mail_user = "1098498321@qq.com"
-        self.mail_pass = "oqfopmwewmebgiih"
+        self.mail_user = "XXXXXXXX@qq.com"
+        self.mail_pass = "XXXXXXXXX"         #密码是授权码
         self.port = '25'
 
     def send_mail(self, to_list, sub, content):
