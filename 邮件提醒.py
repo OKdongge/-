@@ -26,7 +26,7 @@ SMTPServer ="smtp.qq.com"
 Sender = "1098498321@qq.com"
 
 #发送者邮箱的密码
-passwd = "oqfopmwewmebgiih"
+passwd = "yourpassword"
 
 # 设置发送的内容
 message = "hockel is a good men "
