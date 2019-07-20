@@ -93,12 +93,41 @@ def get_suffix(filename,has_dot=False):
         print('Error')
 
 #练习八、返回列表中最大元素和第二大元素
-
-
+def Max(list):
+    for i in range(list):
+    
+        print()
+   
 
 #练习九、计算指定的年月日是一年的第几天
 
+
 #练习十、打印杨辉三角
+def triangle():
+    n = int(input("请输入层数："))
+    m = n
+    for i in range(1,2*n,2):
+        print(m*' ' + i*'*' + m*' ')
+        m -= 1
+
+
+def main():
+    num = int(input('Number of rows: '))
+    yh = [[]] * num
+    for row in range(num):
+        yh[row] = [None] * (row + 1)
+        for col in range(len(yh[row])):
+            if col == 0 or col == row:
+                yh[row][col] = 1
+            else:
+                yh[row][col] = yh[row - 1][col] + yh[row - 1][col - 1]
+            print(yh[row][col],end='\t')               
+        print()                                         
+    
+
+
+if __name__ == '__main__':
+    main()
 
 #练习十一、双色球选号
 
@@ -106,12 +135,3 @@ def get_suffix(filename,has_dot=False):
 
 #练习十三、井字棋问题
 
-
-
-
-
-
-
-if __name__ == "__main__":
-#	num = int(input('请输入正整数：'))
-	

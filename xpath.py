@@ -1,25 +1,14 @@
 import requests
-
+import csv
 from lxml import etree
 
 baseurl = 'https://music.douban.com/top250?start='
 
-# 爬取所有的歌曲名单、评分、人数
-# 格式要规范
-# 
-
-
-def get_request(url):
+def get_data(url):
 	res = requests.get(url).content
-	return res
-
-
-def get_info(html):
-
-	s = etree.HTML(html)
-
-	titles = s.xpath('//*[@id="content"]/div/div[1]/div/table/tr/td[2]/div/a/text()') #字符串
-
+	s = etree.HTML(res)
+	#titles = s.xpath('//*[@id="content"]/div/div[1]/div/table/tr/td[2]/div/a/text()') #字符串
+	titles = s.xpath('//tr[@class="item"]/td[2]/div/a/text()')
 	scores = s.xpath('//*[@id="content"]/div/div[1]/div/table/tr/td[2]/div/div/span[2]/text()')
 
 	numbers = s.xpath('//*[@id="content"]/div/div[1]/div/table/tr/td[2]/div/div/span[3]/text()')
@@ -27,22 +16,29 @@ def get_info(html):
 	links = s.xpath('//*[@id="content"]/div/div[1]/div/table/tr/td[2]/div/a/@href')
 
 	imgpaths = s.xpath('//*[@id="content"]/div/div[1]/div/table/tr/td[1]/a/img/@src')
+	
+	list = []
+	for each in range(25):
+		Dict = {}
+		Dict['title'] = titles[each].strip()
+		Dict['score'] = scores[each]
+		Dict['number'] = numbers[each].strip().replace(' ','').replace('\n','')
+		Dict['link'] = links[each]
+		#print(Dict)
+		list.append(Dict)
+	return list
 
-	for i in range(1,26):
-		try:
-			result = titles[i].strip()+scores[i]+numbers[i]+links[i]+imgpaths[i]
-			return result
-		except:
-			pass
-
-def save_file(data):
-	with open('new_file.txt','w') as f:
-		f.write(result) 
-
+def save_file(list):
+	with open('doubanmusic.csv','w',encoding='utf-8') as ft:
+		writer = csv.DictWriter(ft,fieldnames=['title','score','number','link'])
+		writer.writeheader()
+		for each in list:
+			writer.writerow(each)
 
 if __name__ == "__main__":
-	url = [baseurl + str(25*index) for index in range(0,10)]
-	for index in url:
-		res = get_request(index)
-		result = get_info(res)
-		save_file(result)
+	urllist = [baseurl + str(25*index) for index in range(10)]
+	musiclist = []
+	for url in urllist:
+		result = get_data(url)
+		musiclist += result
+		save_file(musiclist)

@@ -1,3 +1,4 @@
+#coding = 'utf-8'
 import requests 
 from lxml import etree
 import csv
@@ -11,6 +12,7 @@ def get_data(url):
     Title = s.xpath('//div[@class="info"]/div/a/span[1][@class="title"]/text()')
     Score = s.xpath('//div[@class="bd"]/div[1]/span[@class="rating_num"]/text()')
     Inq = s.xpath('//div[@class="bd"]/p[@class="quote"]/span/text()')
+    Link = s.xpath('//div[@class="hd"]/a/@href')
     Star = s.xpath('//div[@class="bd"]/div/span[4]/text()')
     #将信息以字典形式存储！   [{},{},{}]的形式
     movieInfoList = []
@@ -19,14 +21,15 @@ def get_data(url):
         movieDict['title'] = Title[each]
         movieDict['score'] = Score[each]
         movieDict['inq'] = Inq[each]
+        movieDict['link'] = Link[each]
         movieDict['star'] = Star[each]
         print(movieDict)
         movieInfoList.append(movieDict)
     return movieInfoList    
 
 def writeData(movielist):
-    with open('Douban.csv','a+',encoding='utf-8',newline='') as ft:
-        writer = csv.DictWriter(ft,fieldnames=['title','score','inq','star'])#制表
+    with open('Douban.csv','w',encoding='utf-8',newline='') as ft:                #a+是追加模式
+        writer = csv.DictWriter(ft,fieldnames=['title','score','inq','link','star'])     #制表
         writer.writeheader()#写入表头
         for each in movielist:
             writer.writerow(each)
