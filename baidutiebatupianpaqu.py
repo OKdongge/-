@@ -29,16 +29,6 @@ class Tieba:
     #2.使用beautifulsoup重构
     def parse_data(self,data):
         soup = BeautifulSoup(data)
-        
-
-
-
-
-
-
-
-
-
 
     #3.存储数据 
     def save_data(self,data,name):

@@ -48,11 +48,7 @@ if __name__ == '__main__':
         character_data = requests.get(new_url).content
         new_soup = BeautifulSoup(character_data,'lxml')
         content = new_soup.find(id="content")
-    #空格注意了
         fashi = chapter_name + '\n' + content.get_text().replace('\xa0\xa0\xa0\xa0','\n')
-        #textr = []
-        #textr.append(fashi)
-        #textresult = ' '.join(textr)#不能删掉
         helper.send_mail(mailto_list,fashi[:15], fashi)#发送到邮箱
     
 
